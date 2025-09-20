@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "diko"
+version = "0.1.0"
+description = "CLI tool for downloading and verifying ISO images"
+authors = [{ name = "Alexander", email = "Aledon.job@gmail.com" }]
+license = "Apache-2.0"
+dependencies = [
+  "click",
+  "requests"
+]
+
+[project.scripts]
+diko = "diko.cli:main"
