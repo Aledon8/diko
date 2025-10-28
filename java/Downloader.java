@@ -1,6 +1,5 @@
 import java.io.*;
 import java.net.*;
-import java.nio.file.*;
 
 public class Downloader {
     public static void main(String[] args) {
@@ -15,7 +14,7 @@ public class Downloader {
         try {
             URL url = new URL(urlStr);
             URLConnection connection = url.openConnection();
-            int fileSize = connection.getContentLength();
+            long fileSize = connection.getContentLengthLong(); // может быть -1
 
             InputStream input = connection.getInputStream();
             FileOutputStream output = new FileOutputStream(outFile);
@@ -29,17 +28,26 @@ public class Downloader {
                 output.write(buffer, 0, bytesRead);
                 totalRead += bytesRead;
 
+                long elapsed = System.currentTimeMillis() - startTime;
+                double mbRead = totalRead / (1024.0 * 1024.0);
+                double speed = (totalRead / 1024.0 / 1024.0) / (elapsed / 1000.0); // MB/s
+
                 if (fileSize > 0) {
-                    int percent = (int) (totalRead * 100 / fileSize);
-                    double mbRead = totalRead / (1024.0 * 1024.0);
                     double mbTotal = fileSize / (1024.0 * 1024.0);
+                    int percent = (int) (totalRead * 100 / fileSize);
 
-                    long elapsed = System.currentTimeMillis() - startTime;
-                    double speed = (totalRead / 1024.0 / 1024.0) / (elapsed / 1000.0); // MB/s
-
-                    System.out.printf("\rDownloading: %d%%  %.2fMB / %.2fMB  [%.2f MB/s]",
-                            percent, mbRead, mbTotal, speed);
+                    System.out.printf(
+                        "\rDownloading: %3d%%  %.2fMB / %.2fMB  [%.2f MB/s]",
+                        percent, mbRead, mbTotal, speed
+                    );
+                } else {
+                    // fallback — сервер не сообщил размер
+                    System.out.printf(
+                        "\rDownloading: %.2fMB  [%.2f MB/s]",
+                        mbRead, speed
+                    );
                 }
+                System.out.flush();
             }
 
             input.close();
