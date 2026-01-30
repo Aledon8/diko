@@ -1,31 +1,44 @@
 # 🐧 diko
 
-**diko** — CLI tool for downloading and verifying Linux distribution ISO images.
+**diko** — A powerful CLI tool for downloading and verifying Linux distribution ISO images.
+
+---
 
 ## Features
-- 📋 Library of popular distributions
-- 🚀 Fast download (Java Downloader with progress bar)
-- 🔍 Integrity check (SHA256)
-- 🪞 Multiple mirrors for each distribution
+- **Library of Distributions**: Access popular Linux distros (Ubuntu, Debian, Fedora, Arch, etc.) instantly.
+- **High-Speed Download**: Built-in Java downloader with a visual progress bar.
+- **Integrity Check**: Automatic SHA256 verification to ensure your ISO is safe and uncorrupted.
+- **Smart Mirror Selection**: Multiple mirrors for each distribution to ensure availability.
 
 ## Requirements
-- Python 3.8+
-- Java 8+ (for the downloader)
+- **Python 3.11+**
+- **Java 17+**
+
+> **Note**: When installing via **Homebrew** or **APT**, these dependencies are installed and configured automatically. You don't need to worry about them!
 
 ## Installation
 
-### Debian/Ubuntu (APT)
-Download the latest `.deb` package from [Releases](https://github.com/aleksandr/diko/releases) page.
-```bash
-sudo apt install ./diko_*.deb
-```
+### 🍺 Homebrew (macOS)
+The recommended way to install on macOS.
 
-### Homebrew (macOS)
 ```bash
 brew install https://raw.githubusercontent.com/aleksandr/diko/main/Formula/diko.rb
 ```
 
-### From Source
+### Debian/Ubuntu (APT)
+For Debian-based systems, we provide a pre-built `.deb` package.
+
+1. Go to the [Releases](https://github.com/aleksandr/diko/releases) page.
+2. Download the latest `diko_x.x.x_all.deb` file.
+3. Install it using `apt` (this will automatically handle dependencies):
+
+```bash
+sudo apt install ./diko_*.deb
+```
+
+### From Source (Developers)
+If you want to contribute or run the latest development version:
+
 ```bash
 git clone https://github.com/aleksandr/diko.git
 cd diko
@@ -34,37 +47,42 @@ pip install .
 
 ## Usage
 
-### List distributions
+### List available distributions
+See what's available to download:
 ```bash
 diko list
 ```
 
-### Download ISO
+### Download an ISO
+Download the latest Ubuntu LTS:
 ```bash
 diko download ubuntu
-diko download ubuntu -o ubuntu-24.04.iso
-diko download ubuntu -m 1  # choose mirror #1
 ```
 
-### Verify hash
+Specify an output filename:
 ```bash
-diko verify ubuntu-24.04.iso
+diko download ubuntu -o ubuntu-24.04.iso
+```
+
+Choose a specific mirror (if the default is slow):
+```bash
+diko download ubuntu -m 1
+```
+
+### Verify an ISO
+Check the integrity of a downloaded file:
+```bash
 diko verify ubuntu-24.04.iso --distro ubuntu
 ```
 
-## Architecture
-- Python CLI (`diko/cli.py`) — `list`, `download`, `verify` commands
-- Java Downloader (`diko/java/Downloader.java`) — downloading with progress indicator
-- Library (`diko/library.json`) — list of distributions, mirrors, sizes
+## ❤️ Acknowledgements
+A huge thank you to everyone who has contributed to **diko**!
 
-## Makefile (optional)
-After adding Makefile, the following commands are available:
-```bash
-make help
-make install
-make java
-make build
-```
+- **Contributors**: Thank you for your code, bug reports, and suggestions.
+- **Community**: Thanks to everyone who uses diko and helps make it better.
+- **Open Source**: Built on the shoulders of giants like Python, Click, and the OpenJDK community.
 
-## License
-Apache-2.0
+Your support keeps this project alive and open for everyone.
+
+## 📄 License
+This project is licensed under the **Apache-2.0** License.
