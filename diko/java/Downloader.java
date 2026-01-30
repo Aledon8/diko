@@ -14,12 +14,12 @@ public class Downloader {
         try {
             URL url = new URL(urlStr);
             URLConnection connection = url.openConnection();
-            long fileSize = connection.getContentLengthLong(); // может быть -1
+            long fileSize = connection.getContentLengthLong(); // can be -1
 
             InputStream input = connection.getInputStream();
             FileOutputStream output = new FileOutputStream(outFile);
 
-            byte[] buffer = new byte[8192]; // 8 KB буфер
+            byte[] buffer = new byte[8192]; // 8 KB buffer
             int bytesRead;
             long totalRead = 0;
             long startTime = System.currentTimeMillis();

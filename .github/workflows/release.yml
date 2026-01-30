@@ -25,7 +25,7 @@ jobs:
         pip install -e ".[dev]"
     - name: Compile Java
       run: |
-        cd java && javac Downloader.java
+        cd diko/java && javac Downloader.java
     - name: Run tests
       run: |
         pytest tests/ -v
@@ -43,18 +43,36 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install build twine
-    - name: Build package
+        sudo apt-get update
+        sudo apt-get install -y debhelper dh-python python3-all python3-setuptools python3-click default-jdk devscripts
+    - name: Build package (Python)
       run: python -m build
+    - name: Build package (Debian)
+      run: |
+        # Update version in changelog
+        VERSION=${GITHUB_REF#refs/tags/v}
+        if [ -n "$VERSION" ]; then
+          # Use dch to add a new entry or update the current one
+          # We need to set DEBEMAIL and DEBFULLNAME
+          export DEBEMAIL="Aledon.job@gmail.com"
+          export DEBFULLNAME="Alexander"
+          dch -v "${VERSION}-1" --distribution unstable --force-distribution "Release ${VERSION}"
+        fi
+        
+        # Build binary package
+        dpkg-buildpackage -us -uc -b
+        
+        # Move artifacts
+        mv ../diko_*.deb dist/
     - name: Check package
-      run: twine check dist/*
+      run: twine check dist/*.tar.gz dist/*.whl
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
-        files: dist/*
+        files: |
+          dist/*.whl
+          dist/*.tar.gz
+          dist/*.deb
         generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Publish to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        password: ${{ secrets.PYPI_API_TOKEN }}

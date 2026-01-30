@@ -27,7 +27,7 @@ class TestCLI:
     def test_list_command(self):
         result = self.runner.invoke(main, ["list"])
         assert result.exit_code == 0
-        assert "Доступные дистрибутивы" in result.output
+        assert "Available distributions" in result.output
         assert "ubuntu" in result.output
         assert "debian" in result.output
 

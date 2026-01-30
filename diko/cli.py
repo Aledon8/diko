@@ -13,7 +13,7 @@ from .utils import sha256sum
 
 # Paths
 LIBRARY_PATH = Path(__file__).parent / "library.json"
-JAVA_DIR = Path(__file__).parent.parent / "java"
+JAVA_DIR = Path(__file__).parent / "java"
 JAVA_SOURCE = JAVA_DIR / "Downloader.java"
 JAVA_CLASS = JAVA_DIR / "Downloader.class"
 

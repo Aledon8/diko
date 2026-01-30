@@ -44,7 +44,7 @@ where = ["."]
 include = ["diko*"]
 
 [tool.setuptools.package-data]
-diko = ["library.json"]
+diko = ["library.json", "java/*.java", "java/*.class"]
 
 [project.optional-dependencies]
 dev = [

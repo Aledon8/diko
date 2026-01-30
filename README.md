@@ -13,10 +13,23 @@
 - Java 8+ (for the downloader)
 
 ## Installation
+
+### Debian/Ubuntu (APT)
+Download the latest `.deb` package from [Releases](https://github.com/aleksandr/diko/releases) page.
+```bash
+sudo apt install ./diko_*.deb
+```
+
+### Homebrew (macOS)
+```bash
+brew install https://raw.githubusercontent.com/aleksandr/diko/main/Formula/diko.rb
+```
+
+### From Source
 ```bash
 git clone https://github.com/aleksandr/diko.git
 cd diko
-pip install -e .
+pip install .
 ```
 
 ## Usage
@@ -41,7 +54,7 @@ diko verify ubuntu-24.04.iso --distro ubuntu
 
 ## Architecture
 - Python CLI (`diko/cli.py`) — `list`, `download`, `verify` commands
-- Java Downloader (`java/Downloader.java`) — downloading with progress indicator
+- Java Downloader (`diko/java/Downloader.java`) — downloading with progress indicator
 - Library (`diko/library.json`) — list of distributions, mirrors, sizes
 
 ## Makefile (optional)

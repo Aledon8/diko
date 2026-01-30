@@ -21,7 +21,7 @@ dev: ## Install for development
 
 java: ## Compile Java downloader
 	@echo "$(BLUE)Compiling Java downloader...$(NC)"
-	cd java && javac Downloader.java
+	cd diko/java && javac Downloader.java
 
 test: java ## Run tests
 	@echo "$(BLUE)Running tests...$(NC)"
