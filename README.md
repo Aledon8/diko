@@ -1,4 +1,8 @@
-# 🐧 diko
+<p align="center">
+  <img src="assets/Image.png" alt="diko logo" width="150"/>
+</p>
+
+# 💿 diko
 
 **diko** — A powerful CLI tool for downloading and verifying Linux distribution ISO images.
 
@@ -25,7 +29,7 @@ The recommended way to install on macOS.
 brew install https://raw.githubusercontent.com/aleksandr/diko/main/Formula/diko.rb
 ```
 
-### Debian/Ubuntu (APT)
+### 🐧 Debian/Ubuntu (APT)
 For Debian-based systems, we provide a pre-built `.deb` package.
 
 1. Go to the [Releases](https://github.com/aleksandr/diko/releases) page.
