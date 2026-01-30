@@ -3,8 +3,8 @@ class Diko < Formula
 
   desc "CLI tool for downloading and verifying Linux distribution ISO images"
   homepage "https://github.com/Aledon8/diko"
-  url "https://github.com/Aledon8/diko/archive/refs/tags/v0.2.0.tar.gz"
-  sha256 "REPLACE_WITH_SHA256_AFTER_RELEASE"
+  url "https://github.com/Aledon8/diko/archive/refs/tags/v0.1.0.tar.gz"
+  sha256 "5779d3c32f8fcf60e6f24eb4d70fe755634c71bb16f6a9105cad61ce55f3c25d"
   license "Apache-2.0"
 
   depends_on "python@3.12"
