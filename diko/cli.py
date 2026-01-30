@@ -121,9 +121,16 @@ def download(distro, output, mirror):
 
     ensure_java_compiled()
 
+    java_cmd = "java"
+    java_home = os.environ.get("JAVA_HOME")
+    if java_home:
+        java_bin = Path(java_home) / "bin" / "java"
+        if java_bin.exists():
+            java_cmd = str(java_bin)
+
     try:
         subprocess.run([
-            "java", "-cp", str(JAVA_DIR), "Downloader", url, output
+            java_cmd, "-cp", str(JAVA_DIR), "Downloader", url, output
         ], check=True)
     except subprocess.CalledProcessError:
         click.echo("Download failed.", err=True)
