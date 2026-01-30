@@ -1,9 +1,7 @@
 import asyncio
 import hashlib
-import os
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
-
 import aiohttp
 from tqdm.asyncio import tqdm
 
@@ -37,16 +35,13 @@ async def download_file(url: str, output_path: str, max_concurrency: int = 4):
     Download file using aiohttp with concurrent chunks.
     """
     output_path = Path(output_path)
-    
     # Create empty file
     with open(output_path, 'wb') as f:
         pass
 
     async with aiohttp.ClientSession() as session:
         file_size = await get_file_size(session, url)
-        
-        if file_size == 0:
-            # Fallback to single connection if size unknown
+        if file_size == 0:  # Fallback to single connection if size unknown
             print("Unknown file size, downloading in single stream...")
             async with session.get(url) as response:
                 response.raise_for_status()
@@ -61,14 +56,26 @@ async def download_file(url: str, output_path: str, max_concurrency: int = 4):
 
         chunk_size = file_size // max_concurrency
         tasks = []
-        
-        with tqdm(total=file_size, unit='B', unit_scale=True, desc=output_path.name) as pbar:
+        with tqdm(
+            total=file_size, unit='B', unit_scale=True, desc=output_path.name
+        ) as pbar:
             for i in range(max_concurrency):
                 start = i * chunk_size
-                end = start + chunk_size - 1 if i < max_concurrency - 1 else file_size - 1
-                task = download_chunk(session, url, start, end, output_path, pbar)
+                end = (
+                    start + chunk_size - 1
+                    if i < max_concurrency - 1
+                    else file_size - 1
+                )
+                task = download_chunk(
+                    session,
+                    url,
+                    start,
+                    end,
+                    output_path,
+                    pbar,
+                )
                 tasks.append(task)
-            
+
             await asyncio.gather(*tasks)
 
 
@@ -86,9 +93,12 @@ async def verify_file_async(file_path: str, expected_hash: str = None):
     Verify file integrity using multiprocessing for hashing.
     """
     loop = asyncio.get_running_loop()
-    
+
     # Offload hashing to a separate process to avoid blocking the event loop
     with ProcessPoolExecutor() as pool:
         file_hash = await loop.run_in_executor(pool, compute_sha256, file_path)
-    
-    return file_hash, (file_hash.lower() == expected_hash.lower() if expected_hash else None)
+
+    is_valid = (
+        file_hash.lower() == expected_hash.lower() if expected_hash else None
+    )
+    return file_hash, is_valid

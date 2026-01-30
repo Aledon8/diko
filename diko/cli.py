@@ -116,7 +116,6 @@ def verify(file, distro):
         sys.exit(1)
 
     click.echo(f"Computing SHA256 for {file}...")
-    
     expected = None
     if distro:
         library = load_library()
@@ -142,7 +141,6 @@ def verify(file, distro):
                 click.echo("Hash mismatch. File may be corrupted.")
                 click.echo(f"Expected: {expected}")
                 sys.exit(1)
-                
     except Exception as e:
         click.echo(f"Error computing hash: {e}", err=True)
         sys.exit(1)
