@@ -2,13 +2,13 @@ Source: diko
 Section: utils
 Priority: optional
 Maintainer: Alexander <Aledon.job@gmail.com>
-Build-Depends: debhelper-compat (= 13), dh-python, python3-all, python3-setuptools, python3-click
+Build-Depends: debhelper-compat (= 13), dh-python, python3-all, python3-setuptools, python3-click, python3-aiohttp, python3-tqdm
 Standards-Version: 4.6.2
 Homepage: https://github.com/Aledon8/diko
 
 Package: diko
 Architecture: all
-Depends: ${python3:Depends}, ${misc:Depends}, python3-click
+Depends: ${python3:Depends}, ${misc:Depends}, python3-click, python3-aiohttp, python3-tqdm, python3-typing-extensions
 Description: CLI tool for downloading and verifying Linux distribution ISO images
  diko is a command-line tool that helps you download and verify
  ISO images of popular Linux distributions.

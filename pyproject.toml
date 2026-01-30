@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "diko"
-version = "0.1.0"
+version = "0.1.1"
 description = "CLI tool for downloading and verifying Linux distribution ISO images"
 readme = "README.md"
 authors = [{ name = "Alexander", email = "Aledon.job@gmail.com" }]

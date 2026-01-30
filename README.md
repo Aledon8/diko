@@ -23,6 +23,13 @@
 The recommended way to install on macOS.
 
 ```bash
+brew tap aledon8/diko-dev
+brew install diko
+```
+
+Or install directly from the formula:
+
+```bash
 brew install https://raw.githubusercontent.com/Aledon8/diko/main/Formula/diko.rb
 ```
 

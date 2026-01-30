@@ -3,8 +3,8 @@ class Diko < Formula
 
   desc "CLI tool for downloading and verifying Linux distribution ISO images"
   homepage "https://github.com/Aledon8/diko"
-  url "file:///Users/aleksandr/Documents/GitHub/diko", using: :git, branch: "main"
-  version "0.1.1-dev"
+  url "https://github.com/Aledon8/diko/archive/refs/tags/v0.2.0.tar.gz"
+  sha256 "REPLACE_WITH_SHA256_AFTER_RELEASE"
   license "Apache-2.0"
 
   depends_on "python@3.12"
@@ -62,6 +62,11 @@ class Diko < Formula
   resource "tqdm" do
     url "https://files.pythonhosted.org/packages/a8/4b/29b4ef32e036bb34e4ab51796dd745cdba7ed47ad142a9f4a1eb8e0c744d/tqdm-4.67.1.tar.gz"
     sha256 "f8aef9c52c08c13a65f30ea34f4e5aac3fd1a34959879d7e59e63027286627f2"
+  end
+
+  resource "typing-extensions" do
+    url "https://files.pythonhosted.org/packages/e9/9e/c57c4f4204d80d28795c760443212613d2f97c844111364d081f26f2a33f/typing_extensions-4.15.0.tar.gz"
+    sha256 "c08889148d287315a6b09337573d40628292f7d3e69f109b8d23d8c199853920"
   end
 
   resource "click" do

@@ -5,5 +5,9 @@ export PYBUILD_NAME=diko
 %:
 	dh $@ --with python3 --buildsystem=pybuild
 
+override_dh_auto_install:
+	dh_auto_install
+	rm -rf debian/diko/usr/lib/python*/dist-packages/tests
+
 override_dh_auto_test:
 	# Skip tests if needed or run pytest
