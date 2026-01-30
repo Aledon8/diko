@@ -3,19 +3,18 @@
 diko - CLI tool for downloading and verifying ISO images.
 """
 
-import click
+import asyncio
 import json
 import os
-import subprocess
 import sys
 from pathlib import Path
-from .utils import sha256sum
+
+import click
+
+from .downloader import download_file, verify_file_async
 
 # Paths
 LIBRARY_PATH = Path(__file__).parent / "library.json"
-JAVA_DIR = Path(__file__).parent / "java"
-JAVA_SOURCE = JAVA_DIR / "Downloader.java"
-JAVA_CLASS = JAVA_DIR / "Downloader.class"
 
 
 def load_library():
@@ -29,34 +28,6 @@ def load_library():
     except json.JSONDecodeError:
         click.echo("Invalid library.json format.", err=True)
         sys.exit(1)
-
-
-def ensure_java_compiled():
-    """Compile Java downloader if needed."""
-    if not JAVA_SOURCE.exists():
-        click.echo("Java downloader source not found.", err=True)
-        sys.exit(1)
-
-    need_compile = (not JAVA_CLASS.exists()) or (
-        JAVA_SOURCE.stat().st_mtime > JAVA_CLASS.stat().st_mtime
-    )
-    if need_compile:
-        click.echo("Compiling Java downloader...")
-        try:
-            subprocess.run([
-                "javac",
-                str(JAVA_SOURCE)
-            ], cwd=str(JAVA_DIR), check=True, capture_output=True)
-            click.echo("Java downloader compiled.")
-        except subprocess.CalledProcessError as e:
-            click.echo(
-                f"Java compilation error: {e.stderr.decode(errors='ignore')}",
-                err=True,
-            )
-            sys.exit(1)
-        except FileNotFoundError:
-            click.echo("Java (JDK) not found in PATH.", err=True)
-            sys.exit(1)
 
 
 @click.group()
@@ -119,22 +90,9 @@ def download(distro, output, mirror):
     click.echo(f"URL: {url}")
     click.echo(f"Output: {output}\n")
 
-    ensure_java_compiled()
-
-    java_cmd = "java"
-    java_home = os.environ.get("JAVA_HOME")
-    if java_home:
-        java_bin = Path(java_home) / "bin" / "java"
-        if java_bin.exists():
-            java_cmd = str(java_bin)
-
     try:
-        subprocess.run([
-            java_cmd, "-cp", str(JAVA_DIR), "Downloader", url, output
-        ], check=True)
-    except subprocess.CalledProcessError:
-        click.echo("Download failed.", err=True)
-        sys.exit(1)
+        asyncio.run(download_file(url, output))
+        click.echo(f"\n✅ Download finished: {output}")
     except KeyboardInterrupt:
         click.echo("\nDownload interrupted by user.")
         if os.path.exists(output):
@@ -142,6 +100,9 @@ def download(distro, output, mirror):
                 os.remove(output)
             except Exception:
                 pass
+        sys.exit(1)
+    except Exception as e:
+        click.echo(f"Download failed: {e}", err=True)
         sys.exit(1)
 
 
@@ -155,27 +116,33 @@ def verify(file, distro):
         sys.exit(1)
 
     click.echo(f"Computing SHA256 for {file}...")
+    
+    expected = None
+    if distro:
+        library = load_library()
+        if distro not in library:
+            click.echo(
+                f"Distribution '{distro}' not found in library.",
+                err=True,
+            )
+            sys.exit(1)
+        expected = library[distro].get('sha256')
+        if not expected or expected == 'placeholder':
+            click.echo(f"Hash for '{distro}' is not set in library.")
+            expected = None
+
     try:
-        file_hash = sha256sum(file)
+        file_hash, is_valid = asyncio.run(verify_file_async(file, expected))
         click.echo(f"SHA256: {file_hash}")
 
-        if distro:
-            library = load_library()
-            if distro not in library:
-                click.echo(
-                    f"Distribution '{distro}' not found in library.",
-                    err=True,
-                )
-                sys.exit(1)
-            expected = library[distro].get('sha256')
-            if not expected or expected == 'placeholder':
-                click.echo(f"Hash for '{distro}' is not set in library.")
-            elif expected.lower() == file_hash.lower():
+        if distro and expected:
+            if is_valid:
                 click.echo("Hash matches. File is valid.")
             else:
                 click.echo("Hash mismatch. File may be corrupted.")
                 click.echo(f"Expected: {expected}")
                 sys.exit(1)
+                
     except Exception as e:
         click.echo(f"Error computing hash: {e}", err=True)
         sys.exit(1)

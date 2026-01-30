@@ -7,7 +7,7 @@ import os
 from click.testing import CliRunner
 
 from diko.cli import main, load_library
-from diko.utils import sha256sum
+from diko.downloader import compute_sha256
 
 
 class TestCLI:
@@ -46,7 +46,7 @@ class TestUtils:
             f.write("Hello, World!")
             temp_file = f.name
         try:
-            result = sha256sum(temp_file)
+            result = compute_sha256(temp_file)
             assert len(result) == 64
             assert all(c in "0123456789abcdef" for c in result.lower())
             expected = (

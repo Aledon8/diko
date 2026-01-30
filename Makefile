@@ -1,4 +1,4 @@
-.PHONY: install dev test clean build java help demo
+.PHONY: install dev test clean build help demo
 
 BLUE=\033[0;34m
 GREEN=\033[0;32m
@@ -19,11 +19,7 @@ dev: ## Install for development
 	@echo "$(BLUE)Installing development dependencies...$(NC)"
 	pip install -e ".[dev]"
 
-java: ## Compile Java downloader
-	@echo "$(BLUE)Compiling Java downloader...$(NC)"
-	cd diko/java && javac Downloader.java
-
-test: java ## Run tests
+test: ## Run tests
 	@echo "$(BLUE)Running tests...$(NC)"
 	pytest tests/ -v
 
@@ -31,10 +27,9 @@ clean: ## Clean temporary files
 	@echo "$(BLUE)Cleaning temporary files...$(NC)"
 	find . -type f -name "*.pyc" -delete
 	find . -type d -name "__pycache__" -delete
-	find . -type f -name "*.class" -delete
 	rm -rf build/ dist/ *.egg-info/
 
-build: clean java ## Build package
+build: clean ## Build package
 	@echo "$(BLUE)Building package...$(NC)"
 	python -m build || python setup.py sdist bdist_wheel
 

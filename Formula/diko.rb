@@ -7,7 +7,6 @@ class Diko < Formula
   sha256 "5779d3c32f8fcf60e6f24eb4d70fe755634c71bb16f6a9105cad61ce55f3c25d"
   license "Apache-2.0"
 
-  depends_on "openjdk"
   depends_on "python@3.12"
 
   resource "click" do
@@ -16,16 +15,7 @@ class Diko < Formula
   end
 
   def install
-    libexec.install Dir["diko/java"]
-    system "javac", "-d", libexec, libexec/"java/Downloader.java"
-
     virtualenv_install_with_resources
-
-    rm_f bin/"diko"
-    (bin/"diko").write_env_script(
-      libexec/"bin/diko",
-      Language::Java.overridable_java_home_env
-    )
   end
 
   test do

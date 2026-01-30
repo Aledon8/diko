@@ -16,9 +16,6 @@
 
 ## Requirements
 - **Python 3.11+**
-- **Java 17+**
-
-> **Note**: When installing via **Homebrew** or **APT**, these dependencies are installed and configured automatically. You don't need to worry about them!
 
 ## Installation
 
@@ -84,7 +81,7 @@ A huge thank you to everyone who has contributed to **diko**!
 
 - **Contributors**: Thank you for your code, bug reports, and suggestions.
 - **Community**: Thanks to everyone who uses diko and helps make it better.
-- **Open Source**: Built on the shoulders of giants like Python, Click, and the OpenJDK community.
+- **Open Source**: Built on the shoulders of giants like Python and Click.
 
 Your support keeps this project alive and open for everyone.
 
