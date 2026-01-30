@@ -2,9 +2,9 @@ class Diko < Formula
   include Language::Python::Virtualenv
 
   desc "CLI tool for downloading and verifying Linux distribution ISO images"
-  homepage "https://github.com/aleksandr/diko"
-  url "https://github.com/aleksandr/diko/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "placeholder" # Update this with the actual SHA256 after creating the release
+  homepage "https://github.com/Aledon8/diko.git"
+  url "https://github.com/Aledon8/diko/archive/refs/tags/v0.1.0.tar.gz"
+  sha256 "5779d3c32f8fcf60e6f24eb4d70fe755634c71bb16f6a9105cad61ce55f3c25d"
   license "Apache-2.0"
 
   depends_on "openjdk"

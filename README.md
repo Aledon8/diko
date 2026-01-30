@@ -26,13 +26,13 @@
 The recommended way to install on macOS.
 
 ```bash
-brew install https://raw.githubusercontent.com/aleksandr/diko/main/Formula/diko.rb
+brew install https://raw.githubusercontent.com/Aledon8/diko/main/Formula/diko.rb
 ```
 
 ### 🐧 Debian/Ubuntu (APT)
 For Debian-based systems, we provide a pre-built `.deb` package.
 
-1. Go to the [Releases](https://github.com/aleksandr/diko/releases) page.
+1. Go to the [Releases](https://github.com/Aledon8/diko/releases) page.
 2. Download the latest `diko_x.x.x_all.deb` file.
 3. Install it using `apt` (this will automatically handle dependencies):
 
@@ -44,7 +44,7 @@ sudo apt install ./diko_*.deb
 If you want to contribute or run the latest development version:
 
 ```bash
-git clone https://github.com/aleksandr/diko.git
+git clone https://github.com/Aledon8/diko.git
 cd diko
 pip install .
 ```
