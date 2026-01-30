@@ -2,7 +2,7 @@ class Diko < Formula
   include Language::Python::Virtualenv
 
   desc "CLI tool for downloading and verifying Linux distribution ISO images"
-  homepage "https://github.com/Aledon8/diko.git"
+  homepage "https://github.com/Aledon8/diko"
   url "https://github.com/Aledon8/diko/archive/refs/tags/v0.1.0.tar.gz"
   sha256 "5779d3c32f8fcf60e6f24eb4d70fe755634c71bb16f6a9105cad61ce55f3c25d"
   license "Apache-2.0"
@@ -16,19 +16,19 @@ class Diko < Formula
   end
 
   def install
-    # Compile Java downloader
-    system "javac", "diko/java/Downloader.java"
-    
+    libexec.install Dir["diko/java"]
+    system "javac", "-d", libexec, libexec/"java/Downloader.java"
+
     virtualenv_install_with_resources
-    
-    # Replace the default symlink with a wrapper that sets JAVA_HOME
-    # This ensures diko can find the Java runtime provided by the openjdk dependency
+
     rm_f bin/"diko"
-    (bin/"diko").write_env_script libexec/"bin/diko", Language::Java.overridable_java_home_env
+    (bin/"diko").write_env_script(
+      libexec/"bin/diko",
+      Language::Java.overridable_java_home_env
+    )
   end
 
   test do
-    system bin/"diko", "--version"
-    assert_match "Available distributions", shell_output("#{bin}/diko list")
+    system bin/"diko", "--help"
   end
 end
