@@ -32,9 +32,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/aleksandr/diko"
-Repository = "https://github.com/aleksandr/diko"
-Issues = "https://github.com/aleksandr/diko/issues"
+Homepage = "https://github.com/Aledon8/diko"
+Repository = "https://github.com/Aledon8/diko"
+Issues = "https://github.com/Aledon8/diko/issues"
 
 [project.scripts]
 diko = "diko.cli:main"

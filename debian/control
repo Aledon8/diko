@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Alexander <Aledon.job@gmail.com>
 Build-Depends: debhelper-compat (= 13), dh-python, python3-all, python3-setuptools, python3-click, default-jdk
 Standards-Version: 4.6.2
-Homepage: https://github.com/aleksandr/diko
+Homepage: https://github.com/Aledon8/diko
 
 Package: diko
 Architecture: all
