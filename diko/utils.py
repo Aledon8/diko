@@ -1,5 +1,6 @@
 import hashlib
 
+
 def sha256sum(filename):
     """
     Calculate SHA256 checksum for a given file.

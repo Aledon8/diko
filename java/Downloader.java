@@ -41,7 +41,7 @@ public class Downloader {
                         percent, mbRead, mbTotal, speed
                     );
                 } else {
-                    // fallback — сервер не сообщил размер
+                    // fallback - server did not provide size
                     System.out.printf(
                         "\rDownloading: %.2fMB  [%.2f MB/s]",
                         mbRead, speed
